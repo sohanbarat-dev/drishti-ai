@@ -5,14 +5,28 @@ import numpy as np
 import cv2
 import base64
 import os
+import gdown
 
 app = Flask(__name__)
 CORS(app)
 
-# ── Load Model ───────────────────────────────
+# ── Auto-download model from Google Drive ────────────────────────────────────
+MODEL_PATH = 'drishti_model.keras'
+GDRIVE_FILE_ID = '1SLtTsiRLq-tHx3x706b3ja3hEjRrN6s6'
+
+if not os.path.exists(MODEL_PATH):
+    print("Downloading DrishtiAI model from Google Drive...")
+    gdown.download(
+        f'https://drive.google.com/uc?id={GDRIVE_FILE_ID}',
+        MODEL_PATH,
+        quiet=False
+    )
+    print("Model downloaded successfully!")
+
+# ── Load Model ────────────────────────────────────────────────────────────────
 print("Loading DrishtiAI model...")
-model = tf.keras.models.load_model('drishti_model.keras')
-print("✅ Model loaded!")
+model = tf.keras.models.load_model(MODEL_PATH)
+print("Model loaded!")
 
 from tensorflow.keras.applications.efficientnet import preprocess_input
 
