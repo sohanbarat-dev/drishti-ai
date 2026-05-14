@@ -5,23 +5,12 @@ import numpy as np
 import cv2
 import base64
 import os
-import gdown
 
 app = Flask(__name__)
 CORS(app)
 
 # ── Auto-download model from Google Drive ────────────────────────────────────
 MODEL_PATH = 'drishti_model.keras'
-GDRIVE_FILE_ID = '1SLtTsiRLq-tHx3x706b3ja3hEjRrN6s6'
-
-if not os.path.exists(MODEL_PATH):
-    print("Downloading DrishtiAI model from Google Drive...")
-    gdown.download(
-        f'https://drive.google.com/uc?id={GDRIVE_FILE_ID}',
-        MODEL_PATH,
-        quiet=False
-    )
-    print("Model downloaded successfully!")
 
 # ── Load Model ────────────────────────────────────────────────────────────────
 print("Loading DrishtiAI model...")
@@ -250,5 +239,5 @@ def predict():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 7860))
+    port = int(os.environ.get('PORT', 5001))  # 5001 not 7860
     app.run(host='0.0.0.0', port=port, debug=False)
